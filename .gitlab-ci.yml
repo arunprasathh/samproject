@@ -83,4 +83,4 @@ build:
 
   artifacts:
     paths:
-      - sampledatetime.jar
+      - /builds/gitlab-instance-a6e4347b/sampledatetime/*.jar
