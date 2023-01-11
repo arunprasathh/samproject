@@ -81,4 +81,4 @@ build:
     - 'dotnet build'
   artifacts:
     paths:
-      - project-${CI_COMMIT_REF_NAME}.tar.gz
+      - target/sampledatetime.jar
