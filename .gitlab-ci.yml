@@ -81,4 +81,5 @@ build:
     - 'dotnet build'
   artifacts:
     paths:
+      - echo pwd
       - target/sampledatetime.jar
