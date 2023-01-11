@@ -83,4 +83,4 @@ build:
 
   artifacts:
     paths:
-      - /builds/gitlab-instance-a6e4347b/sampledatetime/*
+      - /builds/gitlab-instance-a6e4347b/sampledatetime/
