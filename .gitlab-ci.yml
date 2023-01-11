@@ -83,4 +83,4 @@ build:
 
   artifacts:
     paths:
-      - target/sampledatetime.jar
+      - sampledatetime.jar
