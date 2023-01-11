@@ -79,7 +79,8 @@ build:
   # Only one project path can be passed as a parameter to 'dotnet build' command.
   script:
     - 'dotnet build'
+    - echo pwd
+
   artifacts:
     paths:
-      - echo pwd
       - target/sampledatetime.jar
