@@ -82,6 +82,7 @@ build:
     - pwd
 
   artifacts:
+    name: "$CI_COMMIT_REF_NAME"
     paths:
-      - /builds/gitlab-instance-a6e4347b/sampledatetime/
+      - binaries/
 
