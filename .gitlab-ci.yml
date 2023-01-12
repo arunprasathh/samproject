@@ -83,5 +83,5 @@ build:
 
   artifacts:
     paths:
-      - target/*.war
+      - /builds/gitlab-instance-a6e4347b/sampledatetime/
 
