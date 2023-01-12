@@ -83,5 +83,5 @@ build:
 
   artifacts:
     paths:
-      - artifact.txt
+      - target/*.war
 
