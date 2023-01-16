@@ -83,7 +83,7 @@ build:
     - pwd
 
   artifacts:
-    expire in: 1 day
+    expire_in: 1 week
     paths:
       - /builds/gitlab-instance-a6e4347b/sampledatetime
 
