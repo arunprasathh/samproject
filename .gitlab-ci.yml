@@ -1,4 +1,5 @@
 before_script:
+  - ./docker_install.sh > /dev/null
   - 'dotnet restore'
 
 build:
