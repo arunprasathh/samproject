@@ -1,14 +1,18 @@
 before_script:
-  - ./docker_install.sh > /dev/null
   - 'dotnet restore'
 
 build:
   stage: build
+  image: docker:latest
   script:
-    - 'dotnet build --no-restore'
+    - dotnet build
+    - dotnet publish --output ./publish
+    - pwd
+    - echo 'build completed'
 
-deploy:
-  stage: deploy
-  script:
-      - docker build -t sampledatetime
-      - docker run -d --name sampledatetimecontainer -p 5000:8080 sampledatetime
+buildimage:
+  stage: buildimage
+    - docker build -t sampledatetime
+    - docker run -d --name sampledatetimecontainer -p 5000:8080 sampledatetime
+
+
