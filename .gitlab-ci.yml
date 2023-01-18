@@ -18,7 +18,7 @@ build:
     - pwd
     - echo 'build completed'
   artifacts:
-    expire_in: 1 week
+    expire_in: 1 day
     paths:
       - /builds/gitlab-instance-a6e4347b/sampledatetime
 
