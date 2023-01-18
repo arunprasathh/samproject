@@ -1,33 +1,13 @@
-image: mcr.microsoft.com/dotnet/sdk:latest
+image: docker:stable
 
-stages:
-  - build
-  - buildimage
-  
-variables:
-  IMAGE_TAG: $CI_REGISTRY_IMAGE/SAMPLE_IAMGE1:$CI_COMMIT_REF_SLUG
+services:
+  - docker:dind
 
 before_script:
-  - dotnet restore
+  - docker info
 
 build:
+  script:
+    - docker build -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest .
+    - docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest
   stage: build
-  script:
-    - dotnet build
-    - dotnet publish --output ./publish
-    - pwd
-    - echo 'build completed'
-  artifacts:
-    expire_in: 1 day
-    paths:
-      - /builds/gitlab-instance-a6e4347b/sampledatetime
-
-buildimage:
-  stage: buildimage
-  image: docker:latest
-  script:
-    - docker build -t sampledatetime
-    - docker images
-    - docker run -d --name sampledatetimecontainer -p 5000:8080 sampledatetime
-
-
