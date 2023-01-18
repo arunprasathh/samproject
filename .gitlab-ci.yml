@@ -6,7 +6,6 @@ variables:
   IMAGE_TAG: $CI_REGISTRY_IMAGE/SAMPLE_IAMGE1:$CI_COMMIT_REF_SLUG
 
 before_script:
-  -   - bash docker_install.sh > /dev/null
   - dotnet restore
 
 build:
