@@ -1,19 +1,21 @@
-image: docker:stable
+variables:
+  DOCKER_REGISTRY: 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime
+  AWS_DEFAULT_REGION: us-east-1
+  APP_NAME: sampledatetime
+  DOCKER_HOST: tcp://18.208.170.210:2375
 
-services:
-  - docker:dind
-
-before_script:
-  - docker info
-
-build:
-  only:
-    - master
+publish:
+  image: 
+    name: amazon/aws-cli
+    entrypoint: [""]
+  services:
+    - docker:dind
   before_script:
-    - docker login registry.gitlab.com -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
+    - amazon-linux-extras install docker
+    - aws --version
+    - docker --version
   script:
-    - docker build -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest .
-    - docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest
-  after_script:
-    - docker logout ${CI_REGISTRY}
-  stage: build
+    - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 972400558605.dkr.ecr.us-east-1.amazonaws.com
+    - docker build -t sampledatetime .
+    - docker tag sampledatetime:latest 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:latest
+    - docker push 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:latest
