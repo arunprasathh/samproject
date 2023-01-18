@@ -1,12 +1,12 @@
 stages:
   - build
   - buildimage
+  
 before_script:
-  - 'dotnet restore'
+  - dotnet restore
 
 build:
   stage: build
-  image: docker:latest
   script:
     - dotnet build
     - dotnet publish --output ./publish
@@ -15,6 +15,7 @@ build:
 
 buildimage:
   stage: buildimage
+  image: docker:latest
   script:
     - docker build -t sampledatetime
     - docker run -d --name sampledatetimecontainer -p 5000:8080 sampledatetime
