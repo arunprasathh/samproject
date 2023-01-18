@@ -17,6 +17,10 @@ build:
     - dotnet publish --output ./publish
     - pwd
     - echo 'build completed'
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - /builds/gitlab-instance-a6e4347b/sampledatetime
 
 buildimage:
   stage: buildimage
