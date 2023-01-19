@@ -11,9 +11,6 @@ variables:
 
 build:
   stage: build
-  image: 
-    name: amazon/aws-cli
-    entrypoint: [""]
   services:
     - docker:dind
   
