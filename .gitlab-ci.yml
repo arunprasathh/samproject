@@ -3,6 +3,12 @@ image: docker:stable
 stages:
   - build
 
+variables:
+  DOCKER_REGISTRY: 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime
+  AWS_DEFAULT_REGION: us-east-1
+  APP_NAME: sampledatetime
+
+
 build:
   stage: build
   script:
