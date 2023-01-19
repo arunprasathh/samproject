@@ -11,11 +11,23 @@ variables:
 
 build:
   stage: build
+  image: 
+    name: amazon/aws-cli
+    entrypoint: [""]
+  services:
+    - docker:dind
+  
+  before_script:
+    - apk add --no-cache curl jq python3 py3-pip
+    - pip install awscli
+    - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 972400558605.dkr.ecr.us-east-1.amazonaws.com
+    - aws --version
+    - docker info
+    - docker --version
   script:
-    - docker build -t sampledatetime-image -f Dockerfile .
+    - docker build -t sampledatetime -f Dockerfile .
     - echo 'image build'
     - docker images
-    - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 972400558605.dkr.ecr.us-east-1.amazonaws.com
     - docker tag sampledatetime:latest 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:latest
     - docker push 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:latest
 
