@@ -6,6 +6,7 @@ stages:
 build:
   stage: build
   script:
+    - sudo systemctl start docker
     - docker build -t sampledatetime-image -f Dockerfile .
     - echo 'image build'
     - docker images
