@@ -7,6 +7,8 @@ variables:
   DOCKER_REGISTRY: 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime
   AWS_DEFAULT_REGION: us-east-1
   APP_NAME: sampledatetime
+  AWS_ACCESS_KEY_ID: AKIA6EZ4XAIG7DDDUWQJ
+  AWS_SECRET_ACCESS_KEY: /Ep9LvJXrc7kEgPWUcVRyzGDW1oU7pSWksLwrTk3
 
 
 build:
@@ -15,13 +17,14 @@ build:
     - docker:dind
   
   before_script:
-    - echo $AWS_ACCESS_KEY_ID
-    - apk add --no-cache curl jq python3 py3-pip
-    - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    - unzip awscliv2.zip
-    - ./aws/install
-  #  - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-  #  - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+    - pip install awscli
+
+#    - apk add --no-cache curl jq python3 py3-pip
+#    - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+#    - unzip awscliv2.zip
+#    - ./aws/install
+    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
     - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 972400558605.dkr.ecr.us-east-1.amazonaws.com
     - aws --version
     - docker info
