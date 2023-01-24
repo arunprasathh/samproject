@@ -32,7 +32,9 @@ build:
     - docker images
 #    - docker tag sampledatetime:latest 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:latest
 #    - docker push 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:latest
-    - echo '$CI_PROJECT_PATH'
+    - echo $CI_PROJECT_PATH
+    - echo $CI_PROJECT_URL
+    - echo $CI_PROJECT_DIR
 
 #  after_script:
 #    - apk update && apk add git
