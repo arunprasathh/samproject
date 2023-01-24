@@ -41,7 +41,7 @@ build:
     - git remote add origin https://oauth2:$gitlab_access_token@gitlab.com:$CI_PROJECT_PATH.git
     - git config user.email sarfarazusaf019@gmail.com
     - git config user.name root
-    - git tag -a v0.0 -m "Release version 0.0"
+    - git tag -a v0.1 -m "Release version 0.1"
     - git push --tags
     - git tag
 
