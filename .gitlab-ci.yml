@@ -48,7 +48,8 @@ build:
     - echo $CI_PROJECT_DIR
     - dotnet build
   only:
-    - master
+#    - master
+    - merge_requests
 
 #  after_script:
 #    - apk update && apk add git
