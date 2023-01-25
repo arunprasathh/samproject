@@ -61,4 +61,4 @@ publish:
     - git push origin v0.$CI_VERSION
 
   only:
-    - master
+    - ci
