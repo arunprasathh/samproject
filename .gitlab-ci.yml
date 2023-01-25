@@ -10,6 +10,7 @@ variables:
   AWS_DEFAULT_REGION: us-east-1
   APP_NAME: sampledatetime
   CI_VERSION: "1.0.${CI_JOB_ID}"
+  IMAGE_NAME: sampledatetime-v$CI_JOB_ID
 
 #workflow:
 #  rules:
@@ -41,10 +42,10 @@ publish:
     - docker info
     - docker --version
   script:
-    - docker build -t sampledatetime-v$CI_VERSION -f Dockerfile .
+    - docker build -t $IMAGE_NAME -f Dockerfile .
     - docker images
-    - docker tag sampledatetime:latest 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:latest
-    - docker push 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:latest
+    - docker tag sampledatetime:$IMAGE_NAME 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:$IMAGE_NAME
+    - docker push 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:$IMAGE_NAME
 #    - echo $CI_PROJECT_PATH
 #    - echo $CI_PROJECT_URL
 #    - echo $CI_PROJECT_DIR
@@ -57,7 +58,8 @@ publish:
     - git config user.email $git_email
     - git config user.name $git_user
     - git tag -a v0.$CI_VERSION -m "Release version 0.$CI_VERSION"
-    - git push --tags
+#    - git push --tags
+    - git push origin v0.$CI_VERSION
     - git tag
 #  only:
 #    - master
