@@ -1,8 +1,8 @@
 image: docker:stable
 
 stages:
-#  - nuget restore
-#  - build
+  - nuget restore
+  - build
   - publish
 
 variables:
@@ -16,17 +16,17 @@ variables:
 #  rules:
 #    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
   
-#nuget restore:
-#  image: mcr.microsoft.com/dotnet/sdk:6.0.405
-#  stage: nuget restore
-#  script:
-#    - dotnet restore
+nuget restore:
+  image: mcr.microsoft.com/dotnet/sdk:6.0.405
+  stage: nuget restore
+  script:
+    - dotnet restore
 
-#build:
-#  image: mcr.microsoft.com/dotnet/sdk:6.0.405
-#  stage: build
-#  script:
-#    - dotnet build
+build:
+  image: mcr.microsoft.com/dotnet/sdk:6.0.405
+  stage: build
+  script:
+    - dotnet build
 
 publish:
   stage: publish
@@ -50,16 +50,15 @@ publish:
 #    - echo $CI_PROJECT_URL
 #    - echo $CI_PROJECT_DIR
 
-#  after_script:
-#    - apk update && apk add git
-#    - git --version
-#    - git remote remove origin
-#    - git remote add origin http://oauth2:$gitlab_access_token@ec2-3-214-28-52.compute-1.amazonaws.com/gitlab-instance-a6e4347b/sampledatetime
-#    - git config user.email $git_email
-#    - git config user.name $git_user
-#    - git tag -a v0.$CI_VERSION -m "Release version 0.$CI_VERSION"
-#    - git push --tags
-#    - git push origin v0.$CI_VERSION
-#    - git tag
-#  only:
-#    - master
+  after_script:
+    - apk update && apk add git
+    - git --version
+    - git remote remove origin
+    - git remote add origin http://oauth2:$gitlab_access_token@ec2-3-214-28-52.compute-1.amazonaws.com/gitlab-instance-a6e4347b/sampledatetime
+    - git config user.email $git_email
+    - git config user.name $git_user
+    - git tag -a v0.$CI_VERSION -m "Release version 0.$CI_VERSION"
+    - git push origin v0.$CI_VERSION
+
+  only:
+    - master
