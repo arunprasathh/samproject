@@ -3,6 +3,7 @@ image: docker:stable
 stages:
   - nuget restore
   - build
+  - publish
 
 variables:
   DOCKER_REGISTRY: 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime
@@ -21,44 +22,42 @@ nuget restore:
     - dotnet restore
 
 build:
-  stage: build
-#  services:
-#    - docker:dind
   image: mcr.microsoft.com/dotnet/sdk:6.0.405
-#  before_script:
-#    - apk add --no-cache curl jq python3 py3-pip
-#    - pip install awscli
-#    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-#    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-#    - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 972400558605.dkr.ecr.us-east-1.amazonaws.com
-#    - aws --version
-#    - docker info
-#    - docker --version
-#    - echo $CI_VERSION
-    
-
-
+  stage: build
   script:
-  #  - docker build -t sampledatetime-v$CI_VERSION -f Dockerfile .
-#    - docker images
-#    - docker tag sampledatetime:latest 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:latest
-#    - docker push 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:latest
-    - echo $CI_PROJECT_PATH
-    - echo $CI_PROJECT_URL
-    - echo $CI_PROJECT_DIR
     - dotnet build
+
+publish:
+  stage: publish
+  services:
+    - docker:dind
+  before_script:
+    - apk add --no-cache curl jq python3 py3-pip
+    - pip install awscli
+    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+    - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 972400558605.dkr.ecr.us-east-1.amazonaws.com
+    - aws --version
+    - docker info
+    - docker --version
+  script:
+    - docker build -t sampledatetime-v$CI_VERSION -f Dockerfile .
+    - docker images
+    - docker tag sampledatetime:latest 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:latest
+    - docker push 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:latest
+#    - echo $CI_PROJECT_PATH
+#    - echo $CI_PROJECT_URL
+#    - echo $CI_PROJECT_DIR
+
+  after_script:
+    - apk update && apk add git
+    - git --version
+    - git remote remove origin
+    - git remote add origin http://oauth2:$gitlab_access_token@ec2-3-214-28-52.compute-1.amazonaws.com/gitlab-instance-a6e4347b/sampledatetime
+    - git config user.email $git_email
+    - git config user.name $git_user
+    - git tag -a v0.$CI_VERSION -m "Release version 0.$CI_VERSION"
+    - git push --tags
+    - git tag
   only:
-#    - master
-    - merge_requests
-
-#  after_script:
-#    - apk update && apk add git
-#    - git --version
-#    - git remote remove origin
-#    - git remote add origin http://oauth2:$gitlab_access_token@ec2-3-214-28-52.compute-1.amazonaws.com/gitlab-instance-a6e4347b/sampledatetime
-#    - git config user.email $git_email
-#    - git config user.name $git_user
-#    - git tag -a v0.$CI_VERSION -m "Release version 0.$CI_VERSION"
-#    - git push --tags
-#    - git tag
-
+    - master
