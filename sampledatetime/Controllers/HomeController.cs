@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace sampledatetime.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : ontroller
     {
         private readonly ILogger<HomeController> _logger;
 
