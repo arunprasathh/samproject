@@ -43,7 +43,7 @@ publish:
     - docker --version
   script:
     - docker build -t $IMAGE_NAME:latest -f Dockerfile .
-  #  - docker images
+    - docker images
     - docker tag $IMAGE_NAME:latest 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:latest
     - docker push 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:latest
 #    - echo $CI_PROJECT_PATH
