@@ -44,21 +44,21 @@ publish:
   script:
     - docker build -t $IMAGE_NAME -f Dockerfile .
     - docker images
-    - docker tag $IMAGE_NAME 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:$IMAGE_NAME
+    - docker tag $IMAGE_NAME:latest 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:$IMAGE_NAME
     - docker push 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:$IMAGE_NAME
 #    - echo $CI_PROJECT_PATH
 #    - echo $CI_PROJECT_URL
 #    - echo $CI_PROJECT_DIR
 
-  after_script:
-    - apk update && apk add git
-    - git --version
-    - git remote remove origin
-    - git remote add origin http://oauth2:$gitlab_access_token@ec2-3-214-28-52.compute-1.amazonaws.com/gitlab-instance-a6e4347b/sampledatetime
-    - git config user.email $git_email
-    - git config user.name $git_user
-    - git tag -a v0.$CI_VERSION -m "Release version 0.$CI_VERSION"
-    - git push origin v0.$CI_VERSION
+#  after_script:
+#    - apk update && apk add git
+#    - git --version
+#    - git remote remove origin
+#    - git remote add origin http://oauth2:$gitlab_access_token@ec2-3-214-28-52.compute-1.amazonaws.com/gitlab-instance-a6e4347b/sampledatetime
+#    - git config user.email $git_email
+#    - git config user.name $git_user
+#    - git tag -a v0.$CI_VERSION -m "Release version 0.$CI_VERSION"
+#    - git push origin v0.$CI_VERSION
 
   only:
     - ci
