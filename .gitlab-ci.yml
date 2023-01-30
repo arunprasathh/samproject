@@ -38,6 +38,8 @@ source publish:
     expire_in: 1 hour
     paths:
       - /builds/gitlab-instance-a6e4347b/sampledatetime/publish/
+  only:
+    - ci
 
 image creation:
   stage: image creation
