@@ -1,38 +1,48 @@
-image: mcr.microsoft.com/dotnet/sdk:6.0.405
+image: docker:stable
 
 stages:
   - nuget restore
   - build
+  - source publish
   - image creation
-  - artifacts generation
 
 variables:
   DOCKER_REGISTRY: 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime
   AWS_DEFAULT_REGION: us-east-1
   APP_NAME: sampledatetime
   CI_VERSION: "1.0.${CI_JOB_ID}"
-  IMAGE_NAME: sampledatetime-v$CI_JOB_ID
+  IMAGE_NAME: sampledatetime
 
 workflow:
   rules:
     - if: ($CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "ci")
   
 nuget restore:
-#  image: mcr.microsoft.com/dotnet/sdk:6.0.405
+  image: mcr.microsoft.com/dotnet/sdk:6.0.405
   stage: nuget restore
   script:
     - dotnet restore
 
 build:
-#  image: mcr.microsoft.com/dotnet/sdk:6.0.405
+  image: mcr.microsoft.com/dotnet/sdk:6.0.405
   stage: build
   script:
     - dotnet build
 
+source publish:
+  stage: source publish
+  image: mcr.microsoft.com/dotnet/sdk:6.0.405
+  script:
+    - dotnet publish --output ./publish
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - /builds/gitlab-instance-a6e4347b/sampledatetime/publish/
+  only:
+    - ci
+
 image creation:
   stage: image creation
-  image: docker:stable
-
   services:
     - docker:dind
   before_script:
@@ -46,15 +56,12 @@ image creation:
     - docker --version
   script:
     - docker build -t $IMAGE_NAME:$CI_VERSION -f Dockerfile .
-    - docker tag sampledatetime:$IMAGE_NAME 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:$IMAGE_NAME
-    - docker push 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:$IMAGE_NAME
-    - echo $CI_PROJECT_PATH
-    - echo $CI_PROJECT_URL
-    - echo $CI_PROJECT_DIR
-  artifacts:
-    expire_in: 1 hour
-    paths:
-      - /builds/gitlab-instance-a6e4347b/sampledatetime
+    - docker images
+    - docker tag $IMAGE_NAME:$CI_VERSION 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:$CI_VERSION
+    - docker push 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:$CI_VERSION
+#    - echo $CI_PROJECT_PATH
+#    - echo $CI_PROJECT_URL
+#    - echo $CI_PROJECT_DIR
 
   after_script:
     - apk update && apk add git
@@ -65,18 +72,6 @@ image creation:
     - git config user.name $git_user
     - git tag -a v0.$CI_VERSION -m "Release version 0.$CI_VERSION"
     - git push origin v0.$CI_VERSION
-#    - git tag
+
   only:
     - ci
-
-artifacts generation:
-  stage: artifacts generation
-#  image: mcr.microsoft.com/dotnet/sdk:6.0.405
-  script:
-    - dotnet publish --output ./publish
-  artifacts:
-    expire_in: 1 hour
-    paths:
-      - /builds/gitlab-instance-a6e4347b/sampledatetime/publish/
-  only:
-  - ci
