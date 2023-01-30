@@ -11,7 +11,7 @@ variables:
   AWS_DEFAULT_REGION: us-east-1
   APP_NAME: sampledatetime
   CI_VERSION: "1.0.${CI_JOB_ID}"
-  IMAGE_NAME: sampledatetime
+  IMAGE_NAME: sampledatetime-v1.0.${CI_JOB_ID}
 
 workflow:
   rules:
