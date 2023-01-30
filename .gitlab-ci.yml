@@ -3,8 +3,8 @@ image: mcr.microsoft.com/dotnet/sdk:6.0.405
 stages:
   - nuget restore
   - build
-  - source publish
   - image creation
+  - artifacts generation
 
 variables:
   DOCKER_REGISTRY: 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime
@@ -28,18 +28,6 @@ build:
   stage: build
   script:
     - dotnet build
-
-source publish:
-  stage: source publish
-#  image: mcr.microsoft.com/dotnet/sdk:6.0.405
-  script:
-    - dotnet publish --output ./publish
-  artifacts:
-    expire_in: 1 hour
-    paths:
-      - /builds/gitlab-instance-a6e4347b/sampledatetime/publish/
-  only:
-  - ci
 
 image creation:
   stage: image creation
@@ -80,3 +68,15 @@ image creation:
 #    - git tag
   only:
     - ci
+
+artifacts generation:
+  stage: artifacts generation
+#  image: mcr.microsoft.com/dotnet/sdk:6.0.405
+  script:
+    - dotnet publish --output ./publish
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - /builds/gitlab-instance-a6e4347b/sampledatetime/publish/
+  only:
+  - ci
