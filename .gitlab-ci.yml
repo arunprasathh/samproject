@@ -30,6 +30,8 @@ build:
 
 publish:
   stage: publish
+  image: mcr.microsoft.com/dotnet/sdk:6.0.405
+
 #  services:
 #    - docker:dind
   #before_script:
