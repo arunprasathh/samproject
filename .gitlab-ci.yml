@@ -14,17 +14,20 @@ variables:
   #IMAGE_NAME: sampledatetime-v1.0.${CI_JOB_ID}
   IMAGE_NAME: sampledatetime-v1.0.${CI_PIPELINE_IID}
 
-workflow:
-  rules:
-    - if: ($CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "ci")
+#workflow:
+#  rules:
+#    - if: ($CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "ci")
 
 build:
   image: mcr.microsoft.com/dotnet/sdk:6.0.405
   stage: build
-  before script:
+  before_script:
     - dotnet restore
   script:
     - dotnet build
+    - echo $CI_PROJECT_PATH
+    - echo $CI_PROJECT_URL
+    - echo $CI_PROJECT_DIR
 
 publish:
   stage: publish
