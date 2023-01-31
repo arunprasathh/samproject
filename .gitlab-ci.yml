@@ -1,10 +1,9 @@
 image: docker:stable
 
 stages:
-  - nuget restore
   - build
-  - source publish
-  - image creation
+  - publish
+  - push image
 
 variables:
   DOCKER_REGISTRY: 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime
@@ -18,21 +17,17 @@ variables:
 workflow:
   rules:
     - if: ($CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "ci")
-  
-nuget restore:
-  image: mcr.microsoft.com/dotnet/sdk:6.0.405
-  stage: nuget restore
-  script:
-    - dotnet restore
 
 build:
   image: mcr.microsoft.com/dotnet/sdk:6.0.405
   stage: build
+  before script:
+    - dotnet restore
   script:
     - dotnet build
 
-source publish:
-  stage: source publish
+publish:
+  stage: publish
   image: mcr.microsoft.com/dotnet/sdk:6.0.405
   script:
     - dotnet publish --output ./publish
@@ -43,8 +38,8 @@ source publish:
   only:
     - ci
 
-image creation:
-  stage: image creation
+push image:
+  stage: push image
   services:
     - docker:dind
   before_script:
