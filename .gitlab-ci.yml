@@ -16,6 +16,7 @@ variables:
 #  rules:
 #    - if: ($CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "ci")
 
+
 build:
   image: mcr.microsoft.com/dotnet/sdk:6.0.405
   stage: build
