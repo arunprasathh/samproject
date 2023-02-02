@@ -1,8 +1,8 @@
 image: docker:stable
 
 stages:
-#  - build
-#  - publish
+  - build
+  - publish
   - push image
 
 variables:
@@ -16,25 +16,25 @@ variables:
 #  rules:
 #    - if: ($CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "ci")
 
-#build:
-#  image: mcr.microsoft.com/dotnet/sdk:6.0.405
-#  stage: build
-#  before_script:
-#    - dotnet restore
-#  script:
-#    - dotnet build
+build:
+  image: mcr.microsoft.com/dotnet/sdk:6.0.405
+  stage: build
+  before_script:
+    - dotnet restore
+  script:
+    - dotnet build
 
-#publish:
-#  stage: publish
-#  image: mcr.microsoft.com/dotnet/sdk:6.0.405
-#  script:
-#    - dotnet publish --output ./publish
-#  artifacts:
-#    expire_in: 1 hour
-#    paths:
-#      - /builds/gitlab-instance-a6e4347b/sampledatetime/publish/
-#  only:
-#    - ci
+publish:
+  stage: publish
+  image: mcr.microsoft.com/dotnet/sdk:6.0.405
+  script:
+    - dotnet publish --output ./publish
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - /builds/gitlab-instance-a6e4347b/sampledatetime/publish/
+  only:
+    - ci
 
 push image:
   stage: push image
