@@ -32,7 +32,7 @@ namespace sampledatetime.Controllers
         [HttpPost]
         public ContentResult AjaxMethod(string name)
         {
-            string currentDateTime = string.Format("Hello {0}.\nCurrent DateTime: {1}", name, DateTime.Now.ToString());
+            string currentDateTime = string.Format("Hello {0}.\nCurrent Dateme: {1}", name, DateTime.Now.ToString());
             return Content(currentDateTime);
         }
     }
