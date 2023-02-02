@@ -1,8 +1,8 @@
 image: docker:stable
 
 stages:
-  - build
-  - publish
+#  - build
+#  - publish
   - push image
 
 variables:
@@ -12,9 +12,9 @@ variables:
   CI_VERSION: "1.0.${CI_PIPELINE_IID}"
   IMAGE_NAME: sampledatetime-v1.0.${CI_PIPELINE_IID}
 
-workflow:
-  rules:
-    - if: ($CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "ci")
+#workflow:
+#  rules:
+#    - if: ($CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "ci")
 
 build:
   image: mcr.microsoft.com/dotnet/sdk:6.0.405
