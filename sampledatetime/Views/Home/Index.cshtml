@@ -1,15 +1,32 @@
-﻿@{
+@{
     Layout = null;
 }
- 
+
 <!DOCTYPE html>
- 
+
 <html>
 <head>
-    <meta name="viewport" content="width=device-width"/>
+    <meta name="viewport" content="width=device-width" />
     <title>Index</title>
+    <style>
+        .container {
+            position: relative;
+        }
+
+        .topright {
+            position: absolute;
+            top: 8px;
+            right: 16px;
+            font-size: 18px;
+        }
+    </style>
 </head>
-<body>
-    <h1>Hello World<h1>
+<body style="background-color:lightblue;">
+    
+        <div class="container">
+        <h1>
+            <em>ACL Digital</em></h1>
+            <div class="topright"><script>document.write(new Date().toLocaleString());</script></div>
+        </div>
 </body>
 </html>
