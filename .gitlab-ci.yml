@@ -12,9 +12,9 @@ variables:
   CI_VERSION: "v1.0.${CI_PIPELINE_IID}"
   IMAGE_NAME: sampledatetime-${CI_VERSION}
 
-workflow:
-  rules:
-    - if: ($CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "ci")
+#workflow:
+#  rules:
+#    - if: ($CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "ci")
 
 
 build:
@@ -56,19 +56,19 @@ push image:
 #    - docker tag $IMAGE_NAME:$CI_VERSION $DOCKER_REGISTRY:$CI_VERSION
     - docker tag $IMAGE_NAME:$CI_VERSION $DOCKER_REGISTRY:latest
     - docker push $DOCKER_REGISTRY:latest
-    - docker push $DOCKER_REGISTRY:$CI_VERSION
+#    - docker push $DOCKER_REGISTRY:$CI_VERSION
 #    - docker tag $IMAGE_NAME:$CI_VERSION 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:$CI_VERSION
 #    - docker push 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:$CI_VERSION
 
-  after_script:
-    - apk update && apk add git
-    - git --version
-    - git remote remove origin
-    - git remote add origin http://oauth2:$gitlab_access_token@ec2-3-214-28-52.compute-1.amazonaws.com/gitlab-instance-a6e4347b/sampledatetime
-    - git config user.email $git_email
-    - git config user.name $git_user
-    - git tag -a v$CI_VERSION -m "Release version $CI_VERSION"
-    - git push origin v$CI_VERSION
+#  after_script:
+#    - apk update && apk add git
+#    - git --version
+#    - git remote remove origin
+#    - git remote add origin http://oauth2:$gitlab_access_token@ec2-3-214-28-52.compute-1.amazonaws.com/gitlab-instance-a6e4347b/sampledatetime
+#    - git config user.email $git_email
+#    - git config user.name $git_user
+#    - git tag -a v$CI_VERSION -m "Release version $CI_VERSION"
+#    - git push origin v$CI_VERSION
 
   only:
     - ci
