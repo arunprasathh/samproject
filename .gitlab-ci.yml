@@ -9,8 +9,8 @@ variables:
   DOCKER_REGISTRY: 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime
   AWS_DEFAULT_REGION: us-east-1
   APP_NAME: sampledatetime
-  CI_VERSION: "1.0.${CI_PIPELINE_IID}"
-  IMAGE_NAME: sampledatetime-v1.0.${CI_PIPELINE_IID}
+  CI_VERSION: "v1.0.${CI_PIPELINE_IID}"
+  IMAGE_NAME: sampledatetime-${CI_VERSION}
 
 workflow:
   rules:
