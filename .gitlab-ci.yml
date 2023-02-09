@@ -68,8 +68,8 @@ push image:
     - git remote add origin http://oauth2:$gitlab_access_token@ec2-3-214-28-52.compute-1.amazonaws.com/gitlab-instance-a6e4347b/sampledatetime
     - git config user.email $git_email
     - git config user.name $git_user
-    - git tag -a v$CI_VERSION -m "Release version $CI_VERSION"
-    - git push origin v$CI_VERSION
+    - git tag -a $CI_VERSION -m "Release version $CI_VERSION"
+    - git push origin $CI_VERSION
 
   only:
     - ci
