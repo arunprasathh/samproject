@@ -57,7 +57,7 @@ push image:
     - docker tag $IMAGE_NAME:$CI_VERSION $DOCKER_REGISTRY:$CI_VERSION
     - docker push $DOCKER_REGISTRY:latest
     - docker push $DOCKER_REGISTRY:$CI_VERSION
-    - aws ecs update-service --cluster VV --service ssservice --force-new-deployment --region us-east-1
+    - aws ecs update-service --cluster ad --service adservice --force-new-deployment --region us-east-1
 #    - docker tag $IMAGE_NAME:$CI_VERSION 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:$CI_VERSION
 #    - docker push 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:$CI_VERSION
 
