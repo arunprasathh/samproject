@@ -35,7 +35,7 @@ publish:
     paths:
       - /builds/gitlab-instance-a6e4347b/sampledatetime/publish/
   only:
-    - ci
+    - main
 
 push image:
   stage: push image
@@ -71,4 +71,4 @@ push image:
     - git push origin $CI_VERSION
 
   only:
-    - ci
+    - main
