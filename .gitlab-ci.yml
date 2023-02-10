@@ -1,7 +1,7 @@
 image: docker:stable
 
 stages:
-  - build
+#  - build
 #  - publish
   - push image
 
@@ -17,13 +17,13 @@ workflow:
     - if: ($CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "ci")
 
 
-build:
-  image: mcr.microsoft.com/dotnet/sdk:6.0.405
-  stage: build
-  before_script:
-    - dotnet restore
-  script:
-    - dotnet build
+#build:
+#  image: mcr.microsoft.com/dotnet/sdk:6.0.405
+#  stage: build
+#  before_script:
+#    - dotnet restore
+#  script:
+#    - dotnet build
 
 #publish:
 #  stage: publish
@@ -51,7 +51,8 @@ push image:
     - docker info
     - docker --version
   script:
-    - docker build -t $IMAGE_NAME:$CI_VERSION -f Dockerfile .
+#    - docker build -t $IMAGE_NAME:$CI_VERSION -f Dockerfile .
+    - docker build -t $IMAGE_NAME:
     - docker images
     - docker tag $IMAGE_NAME:$CI_VERSION $DOCKER_REGISTRY:$CI_VERSION
     - docker push $DOCKER_REGISTRY:$CI_VERSION
