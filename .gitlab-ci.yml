@@ -1,8 +1,8 @@
 image: docker:stable
 
 stages:
-  - build
-  - publish
+#  - build
+#  - publish
   - push image
 
 variables:
@@ -17,25 +17,25 @@ workflow:
     - if: ($CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "ci")
 
 
-build:
-  image: mcr.microsoft.com/dotnet/sdk:6.0.405
-  stage: build
-  before_script:
-    - dotnet restore
-  script:
-    - dotnet build
+#build:
+#  image: mcr.microsoft.com/dotnet/sdk:6.0.405
+#  stage: build
+#  before_script:
+#    - dotnet restore
+#  script:
+#    - dotnet build
 
-publish:
-  stage: publish
-  image: mcr.microsoft.com/dotnet/sdk:6.0.405
-  script:
-    - dotnet publish --output ./publish
-  artifacts:
-    expire_in: 1 hour
-    paths:
-      - /builds/gitlab-instance-a6e4347b/sampledatetime/publish/
-  only:
-    - ci
+#publish:
+#  stage: publish
+#  image: mcr.microsoft.com/dotnet/sdk:6.0.405
+#  script:
+#    - dotnet publish --output ./publish
+#  artifacts:
+#    expire_in: 1 hour
+#    paths:
+#      - /builds/gitlab-instance-a6e4347b/sampledatetime/publish/
+#  only:
+#    - ci
 
 push image:
   stage: push image
@@ -55,21 +55,21 @@ push image:
     - docker images
     - docker tag $IMAGE_NAME:$CI_VERSION $DOCKER_REGISTRY:latest
     - docker push $DOCKER_REGISTRY:latest
-#    - docker tag $IMAGE_NAME:$CI_VERSION $DOCKER_REGISTRY:$CI_VERSION
-#    - docker push $DOCKER_REGISTRY:$CI_VERSION
-    - aws ecs update-service --cluster ac --service actask --force-new-deployment --region us-east-1
+    - docker tag $IMAGE_NAME:$CI_VERSION $DOCKER_REGISTRY:$CI_VERSION
+    - docker push $DOCKER_REGISTRY:$CI_VERSION
+#    - aws ecs update-service --cluster ac --service actask --force-new-deployment --region us-east-1
 #    - docker tag $IMAGE_NAME:$CI_VERSION 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:$CI_VERSION
 #    - docker push 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:$CI_VERSION
 
-  after_script:
-    - apk update && apk add git
-    - git --version
-    - git remote remove origin
-    - git remote add origin http://oauth2:$gitlab_access_token@ec2-3-214-28-52.compute-1.amazonaws.com/gitlab-instance-a6e4347b/sampledatetime
-    - git config user.email $git_email
-    - git config user.name $git_user
-    - git tag -a $CI_VERSION -m "Release version $CI_VERSION"
-    - git push origin $CI_VERSION
+#  after_script:
+#    - apk update && apk add git
+#    - git --version
+#    - git remote remove origin
+#    - git remote add origin http://oauth2:$gitlab_access_token@ec2-3-214-28-52.compute-1.amazonaws.com/gitlab-instance-a6e4347b/sampledatetime
+#    - git config user.email $git_email
+#    - git config user.name $git_user
+#    - git tag -a $CI_VERSION -m "Release version $CI_VERSION"
+#    - git push origin $CI_VERSION
 
   only:
     - ci
