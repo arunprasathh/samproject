@@ -1,4 +1,4 @@
-# sampledatetime
+# samplewebapp
 
 
 
@@ -15,14 +15,14 @@ Already a pro? Just edit this README.md and make it your own. Want to make it ea
 
 ```
 cd existing_repo
-git remote add origin http://ec2-3-214-28-52.compute-1.amazonaws.com/gitlab-instance-a6e4347b/sampledatetime.git
+git remote add origin http://ec2-3-214-28-52.compute-1.amazonaws.com/gitlab-instance-a6e4347b/samplewebapp.git
 git branch -M main
 git push -uf origin main
 ```
 
 ## Integrate with your tools
 
-- [ ] [Set up project integrations](http://ec2-3-214-28-52.compute-1.amazonaws.com/gitlab-instance-a6e4347b/sampledatetime/-/settings/integrations)
+- [ ] [Set up project integrations](http://ec2-3-214-28-52.compute-1.amazonaws.com/gitlab-instance-a6e4347b/samplewebapp/-/settings/integrations)
 
 ## Collaborate with your team
 
