@@ -3,7 +3,8 @@ image: docker:stable
 stages:
   - build
   - publish
-  - push image
+  - build docker image
+  - deploy
 
 variables:
   DOCKER_REGISTRY: 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime
@@ -37,8 +38,8 @@ publish:
   only:
     - ci
 
-push image:
-  stage: push image
+build docker image:
+  stage: build docker image
   services:
     - docker:dind
   before_script:
@@ -47,19 +48,23 @@ push image:
     - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
     - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
     - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 972400558605.dkr.ecr.us-east-1.amazonaws.com
-    - aws --version
-    - docker info
-    - docker --version
+
   script:
     - docker build -t $IMAGE_NAME:$CI_VERSION -f Dockerfile .
     - docker tag $IMAGE_NAME:$CI_VERSION $DOCKER_REGISTRY:latest
     - docker tag $IMAGE_NAME:$CI_VERSION $DOCKER_REGISTRY:$CI_VERSION
     - docker push $DOCKER_REGISTRY:latest
     - docker push $DOCKER_REGISTRY:$CI_VERSION
-    - aws ecs update-service --cluster abc --service abcservice --force-new-deployment --region us-east-1
+#    - aws ecs update-service --cluster abc --service abcservice --force-new-deployment --region us-east-1
 #    - docker tag $IMAGE_NAME:$CI_VERSION 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:$CI_VERSION
 #    - docker push 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:$CI_VERSION
+only:
+  - ci
 
+deploy:
+  stage: deploy
+  script:
+    - aws ecs update-service --cluster abc --service abcservice --force-new-deployment --region us-east-1
   after_script:
     - apk update && apk add git
     - git --version
