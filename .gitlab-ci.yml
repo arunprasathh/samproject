@@ -14,7 +14,7 @@ variables:
 
 workflow:
   rules:
-    - if: ($CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "main")
+    - if: ($CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "ci")
 
 
 build:
@@ -35,7 +35,7 @@ publish:
     paths:
       - /builds/gitlab-instance-a6e4347b/sampledatetime/publish/
   only:
-    - main
+    - ci
 
 push image:
   stage: push image
@@ -71,4 +71,4 @@ push image:
     - git push origin $CI_VERSION
 
   only:
-    - main
+    - ci
