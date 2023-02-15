@@ -1,10 +1,10 @@
 image: docker:stable
 
 stages:
-#  - build
+  - build
   - publish
   - build docker image
-#  - deploy
+  - deploy
 
 variables:
   DOCKER_REGISTRY: 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime
@@ -13,30 +13,30 @@ variables:
   CI_VERSION: "v1.0.${CI_PIPELINE_IID}"
   IMAGE_NAME: sampledatetime-${CI_VERSION}
 
-#workflow:
-#  rules:
-#    - if: ($CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "ci")
+workflow:
+  rules:
+    - if: ($CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "ci")
 
 
-#build:
-#  image: mcr.microsoft.com/dotnet/sdk:6.0.405
-#  stage: build
-#  before_script:
-#    - dotnet restore
-#  script:
-#    - dotnet build
+build:
+  image: mcr.microsoft.com/dotnet/sdk:6.0.405
+  stage: build
+  before_script:
+    - dotnet restore
+  script:
+    - dotnet build
 
 publish:
   stage: publish
   image: mcr.microsoft.com/dotnet/sdk:6.0.405
   script:
     - dotnet publish --output ./publish
-#  artifacts:
-#    expire_in: 1 hour
-#    paths:
-#      - /builds/gitlab-instance-a6e4347b/sampledatetime/publish/
-#  only:
-#    - ci
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - /builds/gitlab-instance-a6e4347b/sampledatetime/publish/
+  only:
+    - ci
 
 build docker image:
   stage: build docker image
