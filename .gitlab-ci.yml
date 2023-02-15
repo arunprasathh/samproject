@@ -87,5 +87,5 @@ deploy:
 #    - git tag -a $CI_VERSION -m "Release version $CI_VERSION"
 #    - git push origin $CI_VERSION
 
-#  only:
-#    - ci
+  only:
+    - ci
