@@ -35,8 +35,8 @@ publish:
 #    expire_in: 1 hour
 #    paths:
 #      - /builds/gitlab-instance-a6e4347b/sampledatetime/publish/
-  only:
-    - ci
+#  only:
+#    - ci
 
 build docker image:
   stage: build docker image
@@ -61,8 +61,8 @@ build docker image:
   after_script:
     - aws chime logout-user
 
-  only:
-   - ci
+#  only:
+#   - ci
 
 #deploy:
 #  stage: deploy
