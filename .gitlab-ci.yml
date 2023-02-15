@@ -1,10 +1,10 @@
 image: docker:stable
 
 stages:
-  - build
+#  - build
   - publish
   - build docker image
-  - deploy
+#  - deploy
 
 variables:
   DOCKER_REGISTRY: 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime
@@ -13,28 +13,28 @@ variables:
   CI_VERSION: "v1.0.${CI_PIPELINE_IID}"
   IMAGE_NAME: sampledatetime-${CI_VERSION}
 
-workflow:
-  rules:
-    - if: ($CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "ci")
+#workflow:
+#  rules:
+#    - if: ($CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "ci")
 
 
-build:
-  image: mcr.microsoft.com/dotnet/sdk:6.0.405
-  stage: build
-  before_script:
-    - dotnet restore
-  script:
-    - dotnet build
+#build:
+#  image: mcr.microsoft.com/dotnet/sdk:6.0.405
+#  stage: build
+#  before_script:
+#    - dotnet restore
+#  script:
+#    - dotnet build
 
 publish:
   stage: publish
   image: mcr.microsoft.com/dotnet/sdk:6.0.405
   script:
     - dotnet publish --output ./publish
-  artifacts:
-    expire_in: 1 hour
-    paths:
-      - /builds/gitlab-instance-a6e4347b/sampledatetime/publish/
+#  artifacts:
+#    expire_in: 1 hour
+#    paths:
+#      - /builds/gitlab-instance-a6e4347b/sampledatetime/publish/
   only:
     - ci
 
@@ -51,29 +51,38 @@ build docker image:
 
   script:
     - docker build -t $IMAGE_NAME:$CI_VERSION -f Dockerfile .
-    - docker tag $IMAGE_NAME:$CI_VERSION $DOCKER_REGISTRY:latest
-    - docker tag $IMAGE_NAME:$CI_VERSION $DOCKER_REGISTRY:$CI_VERSION
-    - docker push $DOCKER_REGISTRY:latest
-    - docker push $DOCKER_REGISTRY:$CI_VERSION
+#    - docker tag $IMAGE_NAME:$CI_VERSION $DOCKER_REGISTRY:latest
+#    - docker tag $IMAGE_NAME:$CI_VERSION $DOCKER_REGISTRY:$CI_VERSION
+#    - docker push $DOCKER_REGISTRY:latest
+#    - docker push $DOCKER_REGISTRY:$CI_VERSION
 #    - aws ecs update-service --cluster abc --service abcservice --force-new-deployment --region us-east-1
 #    - docker tag $IMAGE_NAME:$CI_VERSION 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:$CI_VERSION
 #    - docker push 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:$CI_VERSION
+  after_script:
+    - aws chime logout-user
+
   only:
    - ci
 
-deploy:
-  stage: deploy
-  script:
-    - aws ecs update-service --cluster abc --service abcservice --force-new-deployment --region us-east-1
-  after_script:
-    - apk update && apk add git
-    - git --version
-    - git remote remove origin
-    - git remote add origin http://oauth2:$gitlab_access_token@ec2-3-214-28-52.compute-1.amazonaws.com/gitlab-instance-a6e4347b/sampledatetime
-    - git config user.email $git_email
-    - git config user.name $git_user
-    - git tag -a $CI_VERSION -m "Release version $CI_VERSION"
-    - git push origin $CI_VERSION
+#deploy:
+#  stage: deploy
+#  before_script:
+#    - apk add --no-cache curl jq python3 py3-pip
+#    - pip install awscli
+#    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+#    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+#    - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 972400558605.dkr.ecr.us-east-1.amazonaws.com
+#  script:
+#    - aws ecs update-service --cluster abc --service abcservice --force-new-deployment --region us-east-1
+#  after_script:
+#    - apk update && apk add git
+#    - git --version
+#    - git remote remove origin
+#    - git remote add origin http://oauth2:$gitlab_access_token@ec2-3-214-28-52.compute-1.amazonaws.com/gitlab-instance-a6e4347b/sampledatetime
+#    - git config user.email $git_email
+#    - git config user.name $git_user
+#    - git tag -a $CI_VERSION -m "Release version $CI_VERSION"
+#    - git push origin $CI_VERSION
 
-  only:
-    - ci
+#  only:
+#    - ci
