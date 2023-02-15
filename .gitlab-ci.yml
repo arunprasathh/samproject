@@ -3,7 +3,7 @@ image: docker:stable
 stages:
   - build
   - publish
-  - build docker image
+  - push
   - deploy
 
 variables:
@@ -38,8 +38,8 @@ publish:
   only:
     - ci
 
-build docker image:
-  stage: build docker image
+push:
+  stage: push
   services:
     - docker:dind
   before_script:
