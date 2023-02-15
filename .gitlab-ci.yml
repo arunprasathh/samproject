@@ -60,8 +60,8 @@ build docker image:
 #    - docker push 972400558605.dkr.ecr.us-east-1.amazonaws.com/sampledatetime:$CI_VERSION
   after_script:
     - aws chime logout-user \
-        -- account-id $AWS_ACCOUNT_ID \
-        -- user-id $AWS_USER_ID
+        -- account-id 972400558605 \
+        -- user-id srigovind
 
 #  only:
 #   - ci
